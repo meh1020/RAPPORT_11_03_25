@@ -23,7 +23,7 @@ class PortController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|unique:ports,name',
             'destinations' => 'array',
         ]);
 
@@ -42,7 +42,7 @@ class PortController extends Controller
     public function update(Request $request, Port $port)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|unique:ports,name,' . $port->id,
             'destinations' => 'array',
         ]);
 

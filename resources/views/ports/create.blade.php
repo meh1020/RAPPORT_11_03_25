@@ -3,8 +3,6 @@
 @section('title', 'CREER PORT')
 
 @section('content')
-
-
 <div class="container-fluid px-4">
     <div class="top-menu">
         <button class="btn btn-success">
@@ -17,19 +15,31 @@
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
+    {{-- Bloc d'affichage des erreurs --}}
+    @if($errors->any())
+        <div class="alert alert-danger">
+            <strong>Erreur(s) :</strong>
+            <ul>
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <div class="container">
         <form action="{{ route('ports.store') }}" method="POST">
             @csrf
             <div class="mb-3">
                 <label for="name" class="form-label">Nom du Port</label>
-                <input type="text" class="form-control" id="name" name="name" required>
+                <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}" required>
             </div>
 
             <div class="mb-3">
                 <label class="form-label">Destinations</label>
                 <div class="row">
                     @php
-                        // On regroupe les destinations par tranche de 10 éléments
+                        // Regroupe les destinations par tranche de 10 éléments
                         $chunks = $destinations->chunk(10);
                         $nbColumns = $chunks->count();
 
@@ -70,7 +80,5 @@
             <a href="{{ route('ports.index') }}" class="btn btn-secondary">Annuler</a>
         </form>
     </div>
-
 </div>
-
 @endsection

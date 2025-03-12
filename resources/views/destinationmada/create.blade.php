@@ -13,14 +13,23 @@
     </div>
 
     <h2 class="mb-4 text-center">Créer une Destination</h2>
-    <form action="{{ route('destinations.store') }}" method="POST">
+    <form method="POST" action="{{ route('destinations.store') }}">
         @csrf
-        <div class="mb-3">
-            <label for="name" class="form-label">Nom de la destination</label>
-            <input type="text" id="name" name="name" class="form-control" placeholder="Nouvelle destination" required>
+        <div class="form-group">
+            <label for="name">Nom de la destination</label>
+            <input type="text" name="name" id="name" 
+                   class="form-control @error('name') is-invalid @enderror" 
+                   value="{{ old('name') }}">
+            @error('name')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
         </div>
-        <button type="submit" class="btn btn-success">Ajouter</button>
+        <button type="submit" class="btn btn-primary">Ajouter</button>
     </form>
+    
+    
     
 </div>
 @endsection

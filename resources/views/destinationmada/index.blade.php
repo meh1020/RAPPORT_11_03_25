@@ -15,7 +15,7 @@
     <h2 class="mb-4 text-center">📜 Liste des destinations</h2>
 
     <div class="table-responsive">
-        <table class="table table-bordered table-hover table-striped">
+        <table class="table table-bordered table-hover table-striped table-sm">
             <thead class="table-dark">
                 <tr>
                     <th>ID</th>
@@ -27,7 +27,7 @@
             <tr>
                 <td><small>{{ $destination->id }}</small></td>
                 <td><small>{{ $destination->name }}</small></td>
-                <td>
+                <td class="text-center">
                     <form action="{{ route('destinations.destroy', $destination) }}" method="POST" style="display:inline;">
                         @csrf
                         @method('DELETE')

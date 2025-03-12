@@ -28,17 +28,28 @@ class DestinationController extends Controller
      * Stocke une nouvelle destination dans la base de données.
      */
     public function store(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-        ]);
+{
+    $request->validate([
+        'name' => [
+            'required',
+            'string',
+            'max:255',
+            function ($attribute, $value, $fail) {
+                // On effectue une comparaison sensible à la casse grâce à l'opérateur BINARY.
+                if (Destination::whereRaw('BINARY name = ?', [$value])->exists()) {
+                    $fail('La destination existe déjà avec cette écriture exacte.');
+                }
+            },
+        ],
+    ]);
 
-        Destination::create([
-            'name' => $request->input('name'),
-        ]);
+    Destination::create([
+        'name' => $request->input('name'),
+    ]);
 
-        return redirect()->route('destinations.index')->with('success', 'Destination ajoutée avec succès.');
-    }
+    return redirect()->route('destinations.index')->with('success', 'Destination ajoutée avec succès.');
+}
+
 
     public function destroy(Destination $destination)
     {
